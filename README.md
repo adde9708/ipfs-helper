@@ -1,2 +1,2 @@
 # ipfs-helper
-Just a basic js script + site you can bookmark that redirects any ipns and ipfs link to a public IPFS gateway
+A lightweight redirect tool to a public IPFSgateway, so you don't need to run a local node.
