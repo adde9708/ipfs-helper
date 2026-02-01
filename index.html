@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>IPFS / IPNS Gateway Helper</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                font-family: "Montserrat", sans-serif;
+                background: #f0f4f8;
+                margin: 0;
+                padding: 2rem 1rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                color: #333;
+            }
+            .container {
+                background: white;
+                padding: 2.5rem 3rem;
+                border-radius: 10px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+                max-width: 400px;
+                width: 100%;
+                text-align: center;
+            }
+            h1 {
+                margin-bottom: 1.5rem;
+                color: #1e90ff;
+            }
+            input[type="text"] {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                font-size: 1.1rem;
+                border: 2px solid #ccc;
+                border-radius: 6px;
+                transition: border-color 0.3s ease;
+                box-sizing: border-box;
+                margin-bottom: 1rem;
+            }
+            input[type="text"]:focus {
+                outline: none;
+                border-color: #1e90ff;
+                box-shadow: 0 0 6px #1e90ffaa;
+            }
+            button {
+                background-color: #1e90ff;
+                color: white;
+                font-weight: 700;
+                font-size: 1.1rem;
+                padding: 0.75rem 1.5rem;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                width: 100%;
+            }
+            button:hover {
+                background-color: #005fbb;
+            }
+            .error {
+                margin-top: 1rem;
+                color: #d93025;
+                font-weight: 600;
+            }
+            .footer {
+                margin-top: 2rem;
+                font-size: 0.9rem;
+                color: #666;
+            }
+            .footer a {
+                color: #1e90ff;
+                text-decoration: none;
+            }
+            .footer a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>IPFS / IPNS Gateway Helper</h1>
+            <input
+                type="text"
+                id="ipfsInput"
+                placeholder="Enter ipfs:// or ipns:// URL"
+            />
+            <button id="goButton">Go</button>
+            <div id="errorMsg" class="error" aria-live="polite"></div>
+            <div class="footer">
+                Powered by
+                <a href="https://dweb.link" target="_blank" rel="noopener"
+                    >dweb.link</a
+                >
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                const gateway = "https://dweb.link/";
+                const input = document.getElementById("ipfsInput");
+                const button = document.getElementById("goButton");
+                const errorMsg = document.getElementById("errorMsg");
+
+                function redirectToGateway(url) {
+                    if (url.startsWith("ipfs://")) {
+                        location.href = gateway + "ipfs/" + url.slice(7);
+                    } else if (url.startsWith("ipns://")) {
+                        location.href = gateway + "ipns/" + url.slice(7);
+                    } else {
+                        errorMsg.textContent =
+                            "Please enter a valid ipfs:// or ipns:// URL.";
+                    }
+                }
+
+                button.addEventListener("click", () => {
+                    errorMsg.textContent = "";
+                    const url = input.value.trim();
+                    if (!url) {
+                        errorMsg.textContent = "URL cannot be empty.";
+                        return;
+                    }
+                    redirectToGateway(url);
+                });
+
+                input.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter") {
+                        button.click();
+                    }
+                });
+
+                // Optional: prefill input if URL param ?url=ipfs://...
+                const params = new URLSearchParams(location.search);
+                const presetUrl = params.get("url");
+                if (presetUrl) {
+                    input.value = presetUrl;
+                }
+            })();
+        </script>
+    </body>
+</html>
