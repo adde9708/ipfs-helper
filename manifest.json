@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "IPFS/IPNS Redirect Helper",
+  "version": "1.0",
+  "description": "Redirect IPFS/IPNS links with Alt+Click to a helper URL.",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["script.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
