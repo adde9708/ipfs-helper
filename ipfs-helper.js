@@ -1,10 +1,20 @@
+// ==UserScript==
+// @name         IPFS Helper
+// @namespace    https://github.com/adde9708/ipfs-helper
+// @version      0.1
+// @description  Open IPFS links via holding alt and left click
+// @author       adde9708
+// @match        *://*/*
+// @grant        none
+// ==/UserScript==
+
 const HELPER = "https://adde9708.github.io/ipfs-helper/?url=";
 
 function isIPFSorIPNS(url) {
-  if (/^ip(f|n)s:\/\//i.test(url)) return true;
+  if (/^ip(n|f)s:\/\//i.test(url)) return true;
 
   try {
-    const parsed = new URL(url.toLowerCase());
+    const parsed = new URL(url);
     if (
       parsed.hostname.includes("ipfs") ||
       parsed.hostname.includes("ipns") ||
